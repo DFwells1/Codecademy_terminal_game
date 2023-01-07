@@ -151,3 +151,92 @@ def marvin_9000():
     ]
     return "{} says: ".format(player1.name) + random.choice(thoughts)
 
+
+def roundscore():   # print game stats like rounds and scores and last played hands
+    print("\n{} says round scores are as follows:".format(player1.name))
+    print("For round number :", rounds)
+    print("{} just played a hand of : {}".format(player1.name, player1.handscore))
+    print("{} just played a hand of : {}\n".format(player2.name, player2.handscore))
+    checkscore()
+    print("\n{} has won: {} and lost {} rounds.".format(player1.name, player1.wins, player1.loss))
+    print("{} has won: {} and lost {} rounds.".format(player2.name, player2.wins, player2.loss))
+    return
+
+
+def checkscore():
+    if player1.handscore > 21:
+        player1.loser()
+        player2.winner()
+        return
+
+    if player2.handscore > 21:
+        player1.winner()
+        player2.loser()
+        return
+
+    if player2.handscore > player1.handscore:
+        player2.winner()
+        player1.loser()
+        return
+
+    if player2.handscore <= player1.handscore:
+        player2.loser()
+        player1.winner()
+        return
+
+
+def computerplay():             # computer AI
+    hs = player1.handscore
+    player1.pstats()            # display hand and value
+    if hs <= 16:
+        print("\n{} says perhaps I will draw a card and eject you into space.".format(player1.name))
+        print(marvin_9000())
+        player1.sethand(1)      # draw 1 more card from deck
+        player1.handvalue()     # calculate the hand value
+        computerplay()          # loop back to this method for next move
+
+    if hs >= 17 and hs <= 21:
+        print("\n{} says: I will sit, even though i have no buttocks.".format(player1.name))
+        print(marvin_9000())
+        return
+
+    if hs > 21:
+        print("\n{} says: Sorry {} this does not compute! You win this round.".format(player1.name, player2.name))
+        #player1.loser()
+        roundscore()
+        #print(marvin_9000())
+        return
+
+
+def playerplay():
+    if player1.handscore > 21:
+        print("\n{} you won this round but do not expect mercy.".format(player2.name))
+        #print("Game score so far is round:", player1.name, player1.handscore, "     ", player2.name, player2.handscore)
+        #print(marvin_9000())
+        exit()
+    else:
+        hs = player2.handscore
+        print("\n{}".format(player1.name), "says my hand was :", player1.handscore, "can you do better?")
+        player2.pstats()
+        l = 0
+        while l == 0:
+            i = input("\n{} says please [s] to sit or [d] to draw a card or [e] to exit while I prepare the probes.".format(player1.name))
+            if i == "s":
+                l = 1
+                roundscore()
+
+            if i == "d":
+                player2.sethand(1)  # draw 1 more card from deck
+                player2.handvalue()  # calculate the hand value
+                player2.pstats()
+                l = 1   # stop while loop
+                if player2.handscore > 21:
+                    roundscore()
+                    print("LOST")
+                    return
+                playerplay()
+
+            elif i == "e":
+                l = 1
+                exit()
+
