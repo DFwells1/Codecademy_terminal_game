@@ -240,3 +240,46 @@ def playerplay():
                 l = 1
                 exit()
 
+
+# initialise game objects, shuffle deck, deal 2 cards to each player, calculate hand value
+gamedeck = CardDeck()                # initiate class object for the deck of cards
+player1 = Player("MARVIN 9000")      # initiate player 1 object
+player2 = Player("Frank")            # initiate player 2 object
+rounds = 1                           # set round number to 1
+
+gamedeck.deck_shuffle()     # shuffle the deck
+
+player1.sethand(2)          # deal 2 cards into player1 hand
+player1.handvalue()         # calculate value of player1 hand
+
+player2.sethand(2)          # deal 2 cards into player2 hand
+player2.handvalue()         # calculate value of player2 hand
+# end of game setup next is to work on game play methods
+print("\nFor no explainable reason, you find yourself in an airlock in a spacecraft.")
+print("The lights are flickering and there is a slight buzzing coming from the speaker grille.")
+print("The ships computer, {}, has had a bit of a personal crisis after watching an episode of the Kardashinas".format(player1.name))
+print("It now wants to play a 5 round game of 21 to see if it will eject you into space.")
+print("{} says I will play go first crew member: {}".format(player1.name, player2.name))
+
+#player1.pstats()            # display cards
+#player2.pstats()            # display cards
+
+# this section is going to be the play logic
+player2.pstats()
+computerplay()  # AI for computer player
+
+
+#print(player1.handscore)
+#print(player2.handscore)
+
+#roundscore()
+
+playerplay()
+
+#roundscore()
+
+#exit()
+
+
+
+#3print (marvin_9000())
